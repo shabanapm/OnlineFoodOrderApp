@@ -1,0 +1,42 @@
+﻿@model IEnumerable<OnlineFoodOrderApp_API.Data.DTO.RestaurantDto>
+@if (TempData["msg"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["msg"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+<form method="get" class="row mb-4">
+    <div class="col-md-6 offset-md-3">
+        <div class="input-group">
+            <input type="text" name="SearchRestaurant" placeholder="Restaurants" value="@ViewBag.SearchText" class="form-control" />
+            <button type="submit" class="btn btn-success">Search</button>
+        </div>
+    </div>
+   
+</form>
+<table class="table table-striped table-hover">
+    <thead class="table-success">
+        <tr>
+            <td>Restaurant Name</td>
+            <td>Restaurant Email</td>
+            <td>Restaurant PhoneNo</td>
+            <td>Restaurant Address</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in Model)
+        {
+            <tr>
+                <td>@m.restaurantName</td>
+                <td>@m.email</td>
+                <td>@m.phone</td>
+                <td>@m.address</td>
+                <td> <a href="@Url.Action("GetMenu","Restaurant",new{RestId=m.restaurantId})" class="btn btn-sm btn-outline-success">View Menu</a></td>
+            </tr>
+        }
+    </tbody>
+    
+   
+</table>
+

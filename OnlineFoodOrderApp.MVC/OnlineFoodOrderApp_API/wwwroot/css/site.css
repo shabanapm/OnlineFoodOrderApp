@@ -1,0 +1,157 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+  
+}
+.brand-logo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #198754 !important;
+}
+
+    .brand-logo span {
+        color: #2f2f2f;
+        font-weight: 500;
+    }
+
+    .brand-logo:hover {
+        opacity: 0.85;
+    }
+.menu-card {
+    border: none;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+    .menu-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    }
+
+    .menu-card img {
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+    }
+
+.menu-price {
+    font-weight: 600;
+    font-size: 18px;
+    color: #28a745;
+}
+.checkout-table, #cartTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .checkout-table th, .checkout-table td,
+    #cartTable th, #cartTable td {
+        padding: 12px 8px;
+        text-align: center;
+    }
+
+    .checkout-table thead th, #cartTable th {
+        background-color: #d4edda; /* light green header */
+        color: #155724; /* dark green text */
+        font-weight: 600;
+    }
+
+    .checkout-table tbody tr:nth-child(even), #cartTable tr:nth-child(even) {
+        background-color: #f7fff9; /* alternating row color */
+    }
+
+    .checkout-table tbody tr:hover, #cartTable tr:hover {
+        background-color: #e6ffe6; /* hover effect */
+    }
+/* Main action button */
+.btn-placeOrder {
+    background-color: #198754; /* green theme */
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 8px 20px;
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+    .btn-placeOrder:hover:not(:disabled) {
+        background-color: #146c43; /* darker green on hover */
+    }
+
+    .btn-placeOrder:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+/* Secondary/Edit button */
+.btn-edit {
+    background-color: #0d6efd; /* blue */
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 8px 20px;
+    margin-left: 10px;
+    transition: background 0.2s ease;
+}
+
+    .btn-edit:hover {
+        background-color: #0b5ed7;
+    }
+
+/* Optional: small rounded buttons in table (Add/Remove) */
+.btn-sm-rounded {
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 0.85rem;
+}
+.order-summary-card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-top: 20px;
+}
+
+.order-summary-title {
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.payment-section {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+.cart-alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    z-index: 9999;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font-weight: bold;
+    opacity: 0.95;
+}

@@ -1,0 +1,178 @@
+﻿@model OnlineFoodOrderApp.ViewModel.ViewCartViewModel
+
+@if (ViewBag.Conflict != null && ViewBag.Conflict)
+{
+    <div class="card border-warning shadow-sm mb-4">
+        <div class="card-body bg-light">
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+                <div>
+                    <h5 class="text-warning mb-1">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        Cart Conflict Detected
+                    </h5>
+                    <p class="mb-0 text-muted">
+                        Your cart contains items from another restaurant.
+                        Please choose how you would like to proceed.
+                    </p>
+                </div>
+
+                <div class="mt-3 mt-md-0">
+                    <form asp-action="ResolveCartConflict" method="post" class="d-inline">
+                        <input type="hidden" name="Choice" value="Keep" />
+                        <button type="submit" class="btn btn-outline-primary rounded-pill px-4 me-2">
+                            Keep Existing
+                        </button>
+                    </form>
+
+                    <form asp-action="ResolveCartConflict" method="post" class="d-inline">
+                        <input type="hidden" name="Choice" value="Replace" />
+                        <button type="submit" class="btn btn-warning rounded-pill px-4">
+                            Replace Cart
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+}
+<div id="empty" class="alert alert-success text-center fw-semibold mt-4" style="display:none;">
+    Your Cart is Empty
+</div>
+@if (!Model.CartItems.Any())
+{
+    <div id="empty" class="alert alert-info text-center fw-semibold mt-4">
+        🛒 Your cart is empty.Start adding delicious items!
+    </div>
+}
+@if (Model.CartItems.Any())
+{
+    <div class="mb-3">
+        @* <h5 class="fw-semibold text-dark"> *@
+            <h5>
+            <i class="bi bi-shop me-2 text-success"></i>
+            @Model.RestaurantName
+        </h5>
+        <small class="text-muted">Review your items before checkout</small>
+    </div>
+
+<div id="cart">
+    <table id="cartTable" class="table table-bordered align-middle">
+    <thead>
+       <tr>
+           <th>Item</th>
+           <th>Quantity</th>
+           <th>Unit Price</th>
+           <th>Total Price</th>
+                <th>Action</th>
+       </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model.CartItems)
+        {
+            <tr id="row_@item.ItemId">
+                <td>@item.FoodItemName</td>
+                <td id="qty_@item.ItemId">@item.Quantity</td>
+                <td>@item.UnitPrice</td>
+                <td id="tprice_@item.ItemId">@item.TotalPrice</td>
+                <td>
+                        <button class="btn btn-success btn-sm rounded-pill me-1" onclick="cartupdate(@item.ItemId,'Add')">Add</button>
+                        <button class="btn btn-danger btn-sm rounded-pill" onclick="cartupdate(@item.ItemId,'Remove')">Remove</button>
+               </td>
+
+                    
+            </tr>
+        }
+    </tbody>
+</table>
+
+  
+    <div class="card mt-4 p-3 shadow-sm">
+        <div class="d-flex justify-content-between">
+            <span>SubTotal</span>
+            <strong class="text-success">د.إ <span id="subtotal">@String.Format("{0:F2}", Model.CartTotal)</span></strong>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <span>Delivery Fee</span>
+            <span>د.إ @Model.DeliveryFee.ToString("F2")</span>
+        </div>
+
+        <hr />
+
+        <div class="d-flex justify-content-between fs-5">
+            <strong>Grand Total</strong>
+            <strong class="text-success">د.إ <span id="grandtotal">@String.Format("{0:F2}", Model.GrandTotal)</span></strong>
+        </div>
+
+        <div class="text-end mt-3">
+            <button class="btn btn-success px-4 rounded-pill"
+                    onclick="window.location.href='/Cart/Checkout/?RestaurantId=@Model.RestaurantId'">
+                Check Out
+            </button>
+        </div>
+    </div>
+</div>
+}
+@section Scripts
+{
+    <script>
+        function cartupdate(ItemId,Action)
+        {
+            $.ajax({
+                url:'/Cart/UpdateCart',
+                type:'post',                                                                                                                                                                                                                                                                                                                                                                                        
+                data:{ItemId:ItemId,
+                     action:Action},
+                success:function(response)
+                {
+                    if(response.success)
+                    {
+                         console.log(response);
+                        var oldTotal= parseFloat($('#tprice_'+ItemId).text());
+                        if(response.qty==0)
+                        {  // Smooth remove animation
+                          $('#row_' + ItemId).fadeOut(300, function() {
+                          $(this).remove();
+                            if($('#cartTable tbody tr').length==0)
+                            {
+                                $('#empty').fadeIn();
+                                $('#cart').hide();
+                            }
+                          });
+                        }
+                        else
+                        {
+                        $('#qty_' + ItemId).text(response.qty);
+                       $('#tprice_' + ItemId).text(response.total.toFixed(2));
+                      
+                        }
+                      var oldsubtotal = parseFloat($('#subtotal').text());
+                    var oldgrandtotal = parseFloat($('#grandtotal').text());
+
+                     var delta = response.total - oldTotal;
+
+                    var newSubtotal = oldsubtotal + delta;
+                    var newGrandTotal = oldgrandtotal + delta;
+
+                    // Smooth update effect
+                   $('#subtotal').fadeOut(150, function() {
+                   $(this).text(newSubtotal.toFixed(2)).fadeIn(150);
+               });
+
+                          $('#grandtotal').fadeOut(150, function() {
+            $(this).text(newGrandTotal.toFixed(2)).fadeIn(150);
+        });
+                    }
+                },
+                error:function()
+                {
+                    alert('Not added');
+                }
+            })
+        }
+    </script>
+}

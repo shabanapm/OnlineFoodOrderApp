@@ -1,0 +1,114 @@
+﻿@model OnlineFoodOrderApp.ViewModel.CheckoutViewModel
+<form method="post" asp-action="OrderPlaced" asp-controller="Order">
+<style>
+    td,th {
+        padding: 10px 20px; /* top-bottom | left-right */
+    }
+</style>
+<div>
+    <p>From @Model.RestaurantName Restaurant</p>
+        <div>
+            <p><strong>Name:</strong> @Model.CustomerName</p>
+            <p><strong>Address:</strong> @Model.CustomerAddress</p>
+            <p><strong>Phone:</strong> @Model.CustomerPhoneNo</p>
+            </div>
+        <table class="checkout-table">
+        <thead>
+            <tr><th>Item</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total Price</th></tr>
+       </thead>
+        <tbody>
+            @foreach(var item in Model.CartItems)
+            {
+                    <tr id="row_@item.ItemId">
+                <td>@item.FoodItemName</td>
+                 <td id="qty_@item.ItemId">@item.Quantity</td>
+                 <td>@item.UnitPrice</td>
+                <td id="tprice_@item.ItemId">@item.TotalPrice</td>
+                        <td class="edit-btn" style="display:none;">
+                            <button type="button" class="btn btn-success btn-sm btn-sm-rounded" onclick="cartUpdate('/Cart/UpdateCart', @item.ItemId, 'Add')">Add</button>
+                            </td>
+                        <td class="edit-btn" style="display:none;">
+                            <button type="button" class="btn btn-danger btn-sm btn-sm-rounded" onclick="cartUpdate('/Cart/UpdateCart', @item.ItemId, 'Remove')">Remove</button>
+                            </td>
+            </tr>
+            }
+            <tr>
+                   
+                    <td>SubTotal: <span id="subtotal">@String.Format("{0:F2}",Model.CartTotal)</span></td>
+            </tr>
+            <tr>
+                    <td>DeliveryFee: <span id="deliveryFee">@String.Format("{0:F2}",Model.DeliveryFee)</span></td>
+            </tr>
+            <tr>
+                    <td>GrandTotal: <span id="grandtotal">@String.Format("{0:F2}",Model.GrandTotal)</span></td>
+            </tr>
+            <tr>
+                    <td colspan ="6" style="text-align:center;">
+                        <button type="submit" id="placeOrderBtn" class="btn btn-placeOrder">Place Order</button>
+                        <button type="button" id="editOrderBtn" class="btn btn-edit" onclick="toggleEditMode()">Edit Order</button>
+                        </td>
+                    </tr>
+
+        </tbody>
+    </table>
+</div>
+</form>
+@section Scripts
+{
+    <script>
+        var isEditMode=false;
+
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.style.display = isEditMode ? 'table-cell' : 'none';
+            });
+            document.getElementById('editOrderBtn').innerText = isEditMode ? 'Modify' : 'Edit Order';
+            document.getElementById('placeOrderBtn').disabled = isEditMode;
+        }
+        function cartUpdate(url,ItemId,Action)
+        {
+            $.ajax({
+                url:url,
+                type:'post',
+                data:{ItemId:ItemId,
+                     action:Action},
+                success:function(response)
+                {
+                    if(response.success)
+                    {
+                        var oldTotal= parseFloat($('#tprice_'+ItemId).text());
+                        if(response.qty==0)
+                        {
+                            $('#row_'+ItemId).remove();
+                            if($('#cartTable tbody tr').length==0)
+                            {
+                                $('#empty').show();
+                                $('#cart').hide();
+                            }
+                        }
+                        else
+                        {
+                         $('#qty_'+ItemId).text(response.qty);
+                        $('#tprice_'+ItemId).text(response.total);
+
+                        }
+                        var oldsubtotal= parseFloat($('#subtotal').text());
+                         var oldgrandtotal=parseFloat($('#grandtotal').text());
+                      var  delta=response.total-oldTotal;
+                        $('#subtotal').text(delta+oldsubtotal);
+                        $('#grandtotal').text(delta+oldgrandtotal);
+                      console.log('Cart updated: qty=' + response.qty + ', total=' + response.total);
+                    }
+                },
+                error:function()
+                {
+                    alert('Not added');
+                }
+            })
+        }
+    </script>
+}

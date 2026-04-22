@@ -1,0 +1,108 @@
+﻿@model OnlineFoodOrderApp.ViewModel.MenuViewModel
+<h2 class="mb-4 fw-bold">Menu for <span class="text-success">@Model.RestaurantName</span></h2>
+<div class="mb-3 d-flex justify-content-start">
+<a asp-controller="Cart"
+   asp-action="ViewCart"
+   class="btn btn-success rounded-pill">
+    🛒 View Cart
+</a>
+</div>
+<div class="row">
+
+    @foreach(var m in Model.MenuItems)
+    {
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-4"> <!-- responsive columns -->
+            <div class="card menu-card h-100 text-center">
+                <img src="~/Images/@m.FoodImage" class="card-img-top" alt="@m.FoodItemName" style="height:150px; object-fit:cover;" />
+                <div class="card-body">
+                    <h5 class="card-title">@m.FoodItemName</h5>
+                    <p class="menu-price">@m.Unitprice د.إ</p>
+                    <button class="btn btn-success btn-sm w-100 rounded-pill" onclick="addtocart(this,@m.FoodItemId,@Model.RestaurantId,@m.Unitprice)">Add To Cart</button>
+            </div>
+        </div>
+        </div>
+    }
+</div>
+<div class="modal fade" id="mismatchModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-warning">
+                <h5 class="modal-title text-warning">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    Cart Conflict Detected
+                </h5>
+            </div>
+            <div class="modal-body text-muted">
+                Your cart contains items from another restaurant. Please choose how you would like to proceed.
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-primary rounded-pill px-4" id="keepBtn">Keep Existing</button>
+                <button class="btn btn-warning rounded-pill px-4" id="replaceBtn">Replace Cart</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        function addtocart(button,FoodItemId,RestaurantId,Unitprice)
+         {
+           $.ajax({
+               url:'/Cart/AddToCart',
+               type:'POST',
+               data:{FoodItemId:FoodItemId,
+                     RestaurantId:RestaurantId,
+                     Unitprice:Unitprice
+               },
+               success:function(response)
+               {
+                    console.log(response);
+                   if(response.success)
+                       {
+                 let originalText = button.innerText;
+                button.innerText = "Added ✓";
+                button.classList.add("btn-dark"); // optional small style change
+                button.blur();
+                let alertDiv = document.createElement('div');
+                alertDiv.innerText = "Item added to cart!";
+                alertDiv.classList.add('cart-alert'); // apply CSS class
+                document.body.appendChild(alertDiv);
+                setTimeout(() => {
+                    button.innerText = originalText; // revert back
+                    button.classList.remove("btn-dark");
+        if (alertDiv.parentNode) {
+                       alertDiv.parentNode.removeChild(alertDiv); // remove alert from DOM
+                   }
+                }, 1000); // 1 second
+                   }
+                   else if(response.mismatch)
+                   {
+                             var modal = new bootstrap.Modal(document.getElementById('mismatchModal'));
+        modal.show();
+
+        document.getElementById('replaceBtn').onclick = function() {
+            modal.hide();
+            button.disabled = true;
+            $.post('/Cart/ClearCart')
+                .done(function() {
+                    addtocart(button, FoodItemId, RestaurantId, Unitprice);
+                })
+                .fail(function() {
+                    alert('Failed to clear cart. Please try again.');
+                })
+                .always(() => button.disabled = false);
+        };
+
+        document.getElementById('keepBtn').onclick = function() {
+            modal.hide();
+        };
+                  
+                   }
+               },
+               error:function()
+               {
+                   alert('Not added');
+               }
+           });
+         }
+    </script>
+}

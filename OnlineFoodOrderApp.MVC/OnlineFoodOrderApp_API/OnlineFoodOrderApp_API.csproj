@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\**" />
+    <Compile Remove="Views\Home\**" />
+    <Content Remove="Migrations\**" />
+    <Content Remove="Views\Home\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <EmbeddedResource Remove="Views\Home\**" />
+    <None Remove="Migrations\**" />
+    <None Remove="Views\Home\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\CartApiController.cs" />
+    <Compile Remove="Controllers\CheckOutController.cs" />
+    <Compile Remove="Controllers\CustomerController.cs" />
+    <Compile Remove="Controllers\FoodItemController.cs" />
+    <Compile Remove="Controllers\HomeController.cs" />
+    <Compile Remove="Data\DTO\CustomerProfileDto.cs" />
+    <Compile Remove="Data\FoodOrderDbContext.cs" />
+    <Compile Remove="Models\TblAccountDetail.cs" />
+    <Compile Remove="Models\TblCartDetail.cs" />
+    <Compile Remove="Models\TblCartMaster.cs" />
+    <Compile Remove="Models\TblCstmr.cs" />
+    <Compile Remove="Models\TblDeliveryAddr.cs" />
+    <Compile Remove="Models\TblFoodCategory.cs" />
+    <Compile Remove="Models\TblFoodItem.cs" />
+    <Compile Remove="Models\TblOrder.cs" />
+    <Compile Remove="Models\TblOrderDetail.cs" />
+    <Compile Remove="Models\TblRestaurant.cs" />
+    <Compile Remove="Models\TblRestaurantFudItem.cs" />
+    <Compile Remove="Models\TblTransactn.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Cart\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.22">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+</Project>

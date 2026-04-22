@@ -1,0 +1,76 @@
+﻿@model OnlineFoodOrderApp.ViewModel.OrderSummaryViewModel
+<div class="alert alert-success">
+    🎉 Your order has been placed successfully!
+</div>
+
+<div class="order-summary-card">
+    <h2 class="order-summary-title">Order Summary</h2>
+
+<hr />
+    <div class="order-summary-card">
+<div class="mb-3">
+    <p><strong>Order ID:</strong> @Model.OrderId</p>
+    <p><strong>Order Date:</strong> @Model.OrderDate.ToString("dd-MM-yyyy hh:mm tt")</p>
+            <p><strong>Status:</strong><span class="badge bg-success">@Model.OrderStatus</span> </p>
+    <p><strong>Restaurant:</strong> @Model.RestaurantName</p>
+    <p><strong>Delivery Address:</strong> @Model.DeliveryAddress</p>
+</div>
+</div>
+</div>
+<br />
+<div class="text-center mt-4">
+    <a asp-controller="Restaurant" asp-action="Load_Restaurants" class="btn btn-primary">
+        Back to Home
+    </a>
+</div>
+<h4>Ordered Items</h4>
+
+<div class="table-responsive">
+    <table class="checkout-table">
+    <thead>
+        <tr>
+            <th>Food Item</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model.Items!=null&&Model.Items.Any())
+            {
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@item.FoodItemName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.UnitPrice</td>
+                        <td>@item.TotalPrice</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="4">No items found</td></tr>
+            }
+           
+    </tbody>
+</table>
+</div>
+<br />
+
+
+<h4>Payment Details</h4>
+
+<div class="row">
+    <div class="col-md-6">
+        <p><strong>Subtotal:</strong> @Model.OrderAmount.ToString("0.00")</p>
+        <p><strong>Delivery Fee:</strong> @Model.DeliveryFee.ToString("0.00")</p>
+        <hr />
+        <p><strong>Grand Total:</strong> @Model.grandTotal.ToString("0.00")</p>
+    </div>
+
+    <div class="col-md-6">
+        <p><strong>Payment Method:</strong> Cash On Delivery</p>
+        <p><strong>Payment Status:</strong> Pending</p>
+    </div>
+</div>

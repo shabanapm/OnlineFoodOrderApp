@@ -1,0 +1,25 @@
+## Build outputs
+bin/
+obj/
+
+## Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## App settings with secrets
+appsettings.Development.json
+
+## NuGet packages
+packages/
+*.nupkg
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## Logs
+*.log
+logs/

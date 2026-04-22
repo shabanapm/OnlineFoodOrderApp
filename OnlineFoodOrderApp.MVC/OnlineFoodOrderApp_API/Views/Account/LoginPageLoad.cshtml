@@ -1,0 +1,133 @@
+﻿@model OnlineFoodOrderApp_API.ViewModel.LoginViewModel
+
+<style>
+    body {
+        background: linear-gradient(to right, #f0fff4, #d4edda);
+        min-height: 100vh;
+        position: relative;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+
+        /* Soft food images in background */
+        body::before,
+        body::after {
+            content: "";
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background-image: url('/images/food-icon.png'); /* Ensure this path exists */
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.15; /* Adjust for visibility */
+            pointer-events: none;
+            transform: rotate(-10deg);
+            z-index: 0;
+        }
+
+        body::before {
+            top: 20px;
+            left: 20px;
+        }
+
+        body::after {
+            bottom: 30px;
+            right: 30px;
+        }
+
+    .card {
+        background-color: rgba(255, 255, 255, 0.96);
+        border-top: 3px solid #198754; /* Bootstrap success green */
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        padding: 2rem;
+        width: 100%;
+        max-width: 400px;
+        position: relative; /* ensures card sits above background */
+        z-index: 1;
+    }
+
+
+    /* Form styling */
+    .form-label {
+        font-weight: 500;
+    }
+
+    .form-control {
+        border-radius: 8px;
+    }
+
+    .btn-primary {
+        border-radius: 8px;
+        background: #ff7e5f; /* subtle food-orange gradient */
+        border: none;
+        transition: background 0.3s;
+    }
+
+        .btn-primary:hover {
+            background: #ff9678;
+        }
+
+    /* Forgot password link */
+    .forgot-password {
+        display: block;
+        margin-top: 5px;
+        font-size: 0.9rem;
+        text-align: right;
+    }
+
+        .forgot-password a {
+            text-decoration: none;
+            color: #198754; /* Bootstrap success green */
+        }
+
+            .forgot-password a:hover {
+                text-decoration: underline;
+                color: #145c32; /* slightly darker green */
+            }
+
+</style>
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow">
+        <h3 class="text-center mb-4">Login</h3>
+
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                @TempData["message"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <form asp-action="LoginClick" method="post">
+            <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+
+            <div class="mb-3">
+                <label class="form-label">User Name</label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input asp-for="Password" type="password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+
+                <span class="forgot-password">
+                    <a asp-action="ForgotPassword" asp-controller="Account">Forgot Password?</a>
+                </span>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-success">Login</button>
+            </div>
+        </form>
+        <div class="text-center mt-3">
+            <small>
+                Don’t have an account?
+                <a asp-action="UserRegistration" asp-controller="Account">Register</a>
+            </small>
+        </div>
+    </div>
+</div>
+

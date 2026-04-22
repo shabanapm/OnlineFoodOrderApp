@@ -1,0 +1,13 @@
+.vs/
+*.user
+*.suo
+*.sln.docstates
+
+bin/
+obj/
+
+*.log
+
+*.pdb
+*.exe
+*.dll

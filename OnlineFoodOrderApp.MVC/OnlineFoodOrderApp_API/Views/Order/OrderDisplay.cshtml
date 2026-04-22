@@ -1,0 +1,95 @@
+﻿@model IEnumerable<OnlineFoodOrderApp.ViewModel.OrderViewModel>
+
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">My Orders</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center p-5 border rounded bg-light">
+            <h5>No orders yet 🍽️</h5>
+            <p class="text-muted">Once you place an order, it will appear here.</p>
+        </div>
+    }
+    else
+    {
+        @foreach (var m in Model)
+        {
+            var collapseId = "collapseItems_" + m.OrderId;
+
+            var (badgeClass, icon) = m.OrderStatus switch
+            {
+                "Placed" => ("bg-secondary", "bi-receipt"),
+                "Preparing" => ("bg-warning text-dark", "bi-fire"),
+                "Out for Delivery" => ("bg-info text-dark", "bi-truck"),
+                "Delivered" => ("bg-success", "bi-check-circle"),
+                _ => ("bg-primary", "bi-info-circle")
+            };
+
+            <div class="card mb-4 shadow-sm border-0">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>Order #@m.OrderId</strong><br />
+                        <small class="text-muted">
+                            @m.OrderDate.ToString("dd MMM yyyy, hh:mm tt")
+                        </small>
+                    </div>
+
+                    <span class="badge @badgeClass px-3 py-2">
+                        <i class="bi @icon me-1"></i>
+                        @m.OrderStatus
+                    </span>
+                </div>
+
+                <div class="card-body">
+
+                    <p class="mb-1"><strong>Restaurant:</strong> @m.RestaurantName</p>
+                    <p class="mb-2"><strong>Delivery Address:</strong> @m.DeliveryAddress</p>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <h6 class="mb-0">
+                            Total: <span class="text-success">₹ @m.OrderAmount</span>
+                        </h6>
+
+                        <button class="btn btn-outline-primary btn-sm"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#@collapseId">
+                            View Items
+                        </button>
+                    </div>
+
+                    <!-- Collapsible Section -->
+                    <div class="collapse mt-3" id="@collapseId">
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th class="text-center">Qty</th>
+                                        <th class="text-end">Unit Price</th>
+                                        <th class="text-end">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var n in m.orderItemViewModels)
+                                    {
+                                        <tr>
+                                            <td>@n.FoodItemName</td>
+                                            <td class="text-center">@n.Quantity</td>
+                                            <td class="text-end">₹ @n.UnitPrice</td>
+                                            <td class="text-end">₹ @n.TotalPrice</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+    }
+</div>

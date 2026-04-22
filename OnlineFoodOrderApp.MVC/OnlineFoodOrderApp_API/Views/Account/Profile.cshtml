@@ -1,0 +1,72 @@
+﻿@model OnlineFoodOrderApp_API.ViewModel.CustomerViewModel
+
+<div class="container my-5">
+    <div class="card shadow-sm profile-card p-4 mx-auto" style="max-width:600px;">
+        <!-- Profile Image Placeholder -->
+        <div class="text-center mb-3">
+            <div class="profile-pic">
+                <span>@Model.CustomerName.Substring(0, 1).ToUpper()</span>
+            </div>
+        </div>
+
+        <h2 class="text-center mb-4">Your Profile</h2>
+
+        <div class="profile-info mb-3">
+            <p><strong>Name:</strong> @Model.CustomerName</p>
+            <p><strong>Phone:</strong> @Model.Phone</p>
+            <p><strong>Email:</strong> @Model.Email</p>
+            <p><strong>Address:</strong> @Model.Address</p>
+        </div>
+
+        <div class="text-center">
+            <a asp-action="EditProfile" asp-controller="Account" class="btn btn-success btn-profile">
+                Edit Profile
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-card {
+        background: linear-gradient(to right, #f0fff4, #d4edda);
+        border-radius: 12px;
+    }
+
+        .profile-card h2 {
+            color: #155724;
+            font-weight: 600;
+        }
+
+    .profile-info p {
+        font-size: 1rem;
+        margin: 8px 0;
+        color: #2c3e50;
+    }
+
+    .btn-profile {
+        padding: 0.5rem 1.5rem;
+        font-size: 1rem;
+        border-radius: 25px;
+        transition: all 0.3s;
+    }
+
+        .btn-profile:hover {
+            background-color: #138a1e;
+            color: #fff;
+        }
+
+    .profile-pic {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: #c8e6c9; /* lighter green circle */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: #155724;
+        font-weight: 700;
+        margin: 0 auto;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+</style>
