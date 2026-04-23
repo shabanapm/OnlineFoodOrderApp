@@ -157,12 +157,11 @@ http://localhost:XXXX
 - Session-based authentication
 - Role hardcoded server-side (`Customer`) — cannot be tampered via request
 - DB entities never exposed directly to API input (DTO pattern)
-- Password hashing with BCrypt *(in progress)*
+- Password hashing with BCrypt 
 
 ---
 
 ## 📌 In Progress
-- [ ] BCrypt password hashing for secure credential storage
 - [ ] Search and filter for restaurants and menu items
 
 ---
