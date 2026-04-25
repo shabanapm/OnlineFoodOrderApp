@@ -178,16 +178,16 @@ This project is intended for portfolio and interview purposes.
 ## Screenshots
 
 ## Home Page
-![Home Page](screenshots/home.png)
+![Home Page](screenshots/HomePage.PNG)
 ## Login Page
-![Login Page](screenshots/login.png)
+![Login Page](screenshots/Login.PNG)
 ## Menu Page
-![Menu Page](screenshots/menu.png)
+![Menu Page](screenshots/Menu.PNG)
 ## Cart Page
-![Cart Page](screenshots/cart.png)
+![Cart Page](screenshots/cart.PNG)
 ## Checkout Page
-![Checkout Page](screenshots/checkout.png)
+![Checkout Page](screenshots/Checkout.PNG)
 ## Order Summary Page
-![Order Summary](screenshots/ordersummary.png)
+![Order Summary](screenshots/OrderSummary.PNG)
 ## Swagger UI
-![Swagger UI](screenshots/swaggerui.png)
+![Swagger UI](screenshots/Swagger.PNG)
