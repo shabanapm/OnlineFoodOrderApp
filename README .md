@@ -174,3 +174,20 @@ This project started as a standard ASP.NET Core MVC application with direct data
 
 ## 📄 License
 This project is intended for portfolio and interview purposes.
+
+## Screenshots
+
+## Home Page
+![Home Page](screenshots/home.png)
+## Login Page
+![Login Page](screenshots/login.png)
+## Menu Page
+![Menu Page](screenshots/menu.png)
+## Cart Page
+![Cart Page](screenshots/cart.png)
+## Checkout Page
+![Checkout Page](screenshots/checkout.png)
+## Order Summary Page
+![Order Summary](screenshots/ordersummary.png)
+## Swagger UI
+![Swagger UI](screenshots/swaggerui.png)
