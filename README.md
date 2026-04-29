@@ -1,5 +1,5 @@
 # 🍽️ Online Food Ordering App
-
+🌐 **Live Demo:** [Click here to view the app](https://foodorderapp-mvc-ehhcb0geb2fuc2hw.centralus-01.azurewebsites.net)
 A full-stack online food ordering web application built with **ASP.NET Core MVC** and **ASP.NET Core Web API**. The project was initially developed as a monolithic MVC application and later refactored to a clean **API + MVC separated architecture** — demonstrating real-world growth and architectural thinking.
 
 ---
